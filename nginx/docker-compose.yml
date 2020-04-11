@@ -1,0 +1,10 @@
+version: "3"
+services:
+  nx:
+    container_name: mynx
+    restart: always
+    build: .
+    ports:
+      - "8080:80"
+    networks:
+      - default
