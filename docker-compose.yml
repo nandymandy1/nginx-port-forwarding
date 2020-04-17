@@ -1,0 +1,44 @@
+version: "3"
+services:
+  express-app:
+    container_name: express-app
+    restart: always
+    build: ./express-app
+    ports:
+      - "3000:3000"
+    networks:
+      - app
+  flask-app:
+    container_name: flask-app
+    restart: always
+    build: ./flask-app
+    ports:
+      - "5000:5001"
+    volumes:
+      - ./flask-app:/flaskApp
+    networks:
+      - app
+  php-app:
+    container_name: php-app
+    restart: always
+    build: ./php-app
+    ports:
+      - "6000:80"
+    volumes:
+      - ./php-app/src:/var/www/html
+    networks:
+      - app
+  nginx:
+    container_name: nginx
+    restart: always
+    build: ./nginx
+    ports:
+      - "8080:80"
+    networks:
+      - app
+    depends_on: 
+      - express-app
+      - flask-app
+      - php-app
+networks:
+  app:
